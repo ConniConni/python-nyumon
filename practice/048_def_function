@@ -1,0 +1,6 @@
+
+def say_something():
+    print('hi')
+
+f = say_something
+print(type(f))
