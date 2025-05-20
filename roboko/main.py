@@ -54,7 +54,7 @@ favorite_restaurant = input()
 #         f.write(f'{favorite_restaurant},\n')
 
 # try:
-#     with open('restaurant.csv', 'r+') as csv_file:
+#     with open('restaurant.csv', 'r') as csv_file:
 #         print('既存ファイルに記録しました。')
 #         fieldnames = ['Name', 'Count']
 #         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -81,19 +81,30 @@ path = 'restaurant.csv'
 is_file = os.path.isfile(path)
 
 if not os.path.isfile(path):
-    with open('restaurant.csv', 'w+') as csv_file:
+    with open('restaurant.csv', 'w') as csv_file:
         fieldnames = ['Name', 'Count']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        print('新規ファイル作成')
         writer.writeheader()
-
+        print('新規ファイル作成')
 else:
     pass
-with open('restaurant.csv', 'a+') as csv_file:
+
+with open('restaurant.csv', 'r') as csv_file:
+    print('ファイル内容確認')
+    reader = csv.DictReader(csv_file)
+    for row in reader:
+        print(row)
+
+with open('restaurant.csv', 'a') as csv_file:
     print('ファイル更新')
     fieldnames = ['Name', 'Count']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writerow({'Name': favorite_restaurant, 'Count': 1})
+
+with open('restaurant.csv', 'r') as csv_file:
+    reader = csv.DictReader(csv_file)
+    for row in reader:
+        print(row)
 
 
 
