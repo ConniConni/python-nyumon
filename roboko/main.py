@@ -39,9 +39,9 @@ user_name = input()
 roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
-f = open('restaurant.csv', 'a')
-f.write(f'{favorite_restaurant}\n')
-f.close()
+# 答えてもらったレストランをファイルに記録
+with open('restaurant.csv', 'a') as f:
+    f.write(f'{favorite_restaurant}\n')
 
 # プログラムを終了する
 roboko.see_you(user_name)
