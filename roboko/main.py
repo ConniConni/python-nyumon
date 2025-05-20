@@ -1,5 +1,6 @@
 from termcolor import cprint
 import csv
+import os
 
 def frame(func):
     def wrapper(*args, **kwargs):
@@ -65,6 +66,36 @@ favorite_restaurant = input()
 #         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 #         writer.writeheader()
 #         writer.writerow({'Name': favorite_restaurant,'Count': 1})
+
+# ①ファイルの存在確認
+# True:  ファイル更新
+# False: ファイル作成
+#       （1）ヘッダーを書き込み
+#        (2)１行目を書き込み
+#　共通処理
+#  (1)ファイルの存在確認
+#  (2)fieldnames定義
+#  (3)dictwriteメソッド実行 #各行に辞書型で書き込む
+
+path = 'restaurant.csv'
+is_file = os.path.isfile(path)
+
+if not os.path.isfile(path):
+    with open('restaurant.csv', 'w+') as csv_file:
+        fieldnames = ['Name', 'Count']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        print('新規ファイル作成')
+        writer.writeheader()
+
+else:
+    pass
+with open('restaurant.csv', 'a+') as csv_file:
+    print('ファイル更新')
+    fieldnames = ['Name', 'Count']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    writer.writerow({'Name': favorite_restaurant, 'Count': 1})
+
+
 
 
 # プログラムを終了する
