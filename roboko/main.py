@@ -40,7 +40,7 @@ roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
 f = open('restaurant.csv', 'a')
-f.write(favorite_restaurant)
+f.write(f'{favorite_restaurant}\n')
 f.close()
 
 # プログラムを終了する
