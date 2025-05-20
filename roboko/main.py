@@ -39,7 +39,7 @@ user_name = input()
 roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
-f = open('restaurant.csv', 'w')
+f = open('restaurant.csv', 'a')
 f.write(favorite_restaurant)
 f.close()
 
