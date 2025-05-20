@@ -22,9 +22,17 @@ class FavoriteRestaurant(object):
     
     @frame
     def question(self, user_name):
-        cprint(f'{user_name}, さん。どこのレストランが好きですか？', 'green')
-        cprint(f'{user_name}, which restaurants do you like?', 'green')
+        cprint(f'{user_name}さん。どこのレストランが好きですか？', 'green')
+        cprint(f'{user_name}which restaurants do you like?', 'green')
 
+class GoodBye(object):
+    def __init__(self):
+         cprint('####GoodByeクラスのオブジェクトを初期化####', 'yellow')
+    
+    @frame
+    def see_you(self, robot_name, user_name):
+        cprint(f'{robot_name}: {user_name}さん。ありがとうとございました。', 'green')
+        cprint(f'{robot_name}: Thank you so much {user_name}!', 'green')
 
 greeting = Greeting()
 
@@ -37,6 +45,7 @@ favorite_restaurant.question(user_name)
 
 favorite_restaurant = input()
 
-print('Roboko:',user_name, 'さん。ありがとうとございました。')
-print('Roboko:', 'Thank you so much',user_name,'!')
+good_bye = GoodBye()
+good_bye.see_you('Roboko',user_name)
+
 
