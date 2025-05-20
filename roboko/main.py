@@ -1,4 +1,5 @@
 from termcolor import cprint
+import csv
 
 def frame(func):
     def wrapper(*args, **kwargs):
@@ -51,7 +52,19 @@ favorite_restaurant = input()
 #     with open('restaurant.csv', 'a') as f:
 #         f.write(f'{favorite_restaurant},\n')
 
-
+try:
+    with open('restaurant.csv', 'r+') as csv_file:
+        print('既存ファイルに記録しました。')
+        fieldnames = ['Name', 'Count']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writerow({'Name': favorite_restaurant,'Count': 1})
+except FileNotFoundError:
+    print('ファイルが存在しません。新しいファイルを作成します。')
+    with open('restaurant.csv', 'w') as csv_file:
+        fieldnames = ['Name', 'Count']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow({'Name': favorite_restaurant,'Count': 1})
 
 
 # プログラムを終了する
