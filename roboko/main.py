@@ -77,6 +77,8 @@ favorite_restaurant = input()
 #  (2)fieldnames定義
 #  (3)dictwriteメソッド実行 #各行に辞書型で書き込む
 
+
+# 課題　クラス化してwith openを３回にする。
 path = 'restaurant.csv'
 is_file = os.path.isfile(path)
 
@@ -93,7 +95,7 @@ with open('restaurant.csv', 'r') as csv_file:
     print('ファイル内容確認')
     reader = csv.DictReader(csv_file)
     for row in reader:
-        print(row)
+        print(row['Name'], row['Count'])
 
 with open('restaurant.csv', 'a') as csv_file:
     print('ファイル更新')
@@ -104,7 +106,7 @@ with open('restaurant.csv', 'a') as csv_file:
 with open('restaurant.csv', 'r') as csv_file:
     reader = csv.DictReader(csv_file)
     for row in reader:
-        print(row)
+        print(row['Name'], row['Count'])
 
 
 
