@@ -7,49 +7,39 @@ def frame(func):
         cprint('*' * 60, 'green')
     return wrapper
 
-
-class Greeting(object):
+class RestaurantRobot(object):
     def __init__(self, robot_name):
         self.robot_name = robot_name
         cprint('####Greetingクラスのオブジェクトを初期化####', 'yellow')
+
     @frame
     def hello(self):
         cprint(f'こんにちは!私は{self.robot_name}です。あなたの名前は何ですか？', 'green')
         cprint(f'Hello, I am {self.robot_name}. What is your name?','green')
 
-class FavoriteRestaurant(object):
-    def __init__(self, user_name):
-        self.user_name = user_name
-        cprint('####FavoriteRestaurantクラスのオブジェクトを初期化####', 'yellow')
-
     @frame
-    def question(self):
+    def favorite_restaurant(self, user_name):
         cprint(f'{user_name}さん。どこのレストランが好きですか？', 'green')
-        cprint(f'{self.user_name}which restaurants do you like?', 'green')
-
-class GoodBye(object):
-    def __init__(self, robot_name, user_name):
-        self.robot_name = robot_name
-        self.user_name = user_name
-        cprint('####GoodByeクラスのオブジェクトを初期化####', 'yellow')
+        cprint(f'{user_name}which restaurants do you like?', 'green')
 
     @frame
-    def see_you(self):
-        cprint(f'{self.robot_name}: {self.user_name}さん。ありがとうとございました。', 'green')
-        cprint(f'{self.robot_name}: Thank you so much {self.user_name}!', 'green')
+    def see_you(self, user_name):
+        cprint(f'{self.robot_name}: {user_name}さん。ありがとうとございました。', 'green')
+        cprint(f'{self.robot_name}: Thank you so much {user_name}!', 'green')
 
-greeting = Greeting('Roboko')
 
-greeting.hello()
+# Restaurantクラスのインスタンスを生成
+roboko = RestaurantRobot('Roboko')
 
+# ユーザーの名前を尋ねる
+roboko.hello()
 user_name = input()
 
-favorite_restaurant = FavoriteRestaurant(user_name)
-favorite_restaurant.question()
-
+# お気に入りのレストランを尋ねる
+roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
-good_bye = GoodBye('Roboko',user_name)
-good_bye.see_you()
+# プログラムを終了する
+roboko.see_you(user_name)
 
 
