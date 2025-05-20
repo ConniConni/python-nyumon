@@ -12,9 +12,18 @@ class Greeting(object):
     def __init__(self):
         cprint('####Greetingクラスのオブジェクトを初期化####', 'yellow')
     @frame
-    def hello(self, name):
-        cprint(f'こんにちは!私は{name}です。あなたの名前は何ですか？', 'green')
-        cprint(f'Hello, I am {name}. What is your name?','green')
+    def hello(self, robot_name):
+        cprint(f'こんにちは!私は{robot_name}です。あなたの名前は何ですか？', 'green')
+        cprint(f'Hello, I am {robot_name}. What is your name?','green')
+
+class FavoriteRestaurant(object):
+    def __init__(self):
+        cprint('####FavoriteRestaurantクラスのオブジェクトを初期化####', 'yellow')
+    
+    @frame
+    def question(self, user_name):
+        cprint(f'{user_name}, さん。どこのレストランが好きですか？', 'green')
+        cprint(f'{user_name}, which restaurants do you like?', 'green')
 
 
 greeting = Greeting()
@@ -23,8 +32,8 @@ greeting.hello('Roboko')
 
 user_name = input()
 
-print(user_name, 'さん。どこのレストランが好きですか？')
-print(user_name, 'which restaurants do you like?')
+favorite_restaurant = FavoriteRestaurant()
+favorite_restaurant.question(user_name)
 
 favorite_restaurant = input()
 
