@@ -40,16 +40,19 @@ roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
 # 答えてもらったレストランをファイルに記録
-try:
-    with open('restaurant.csv', 'r+') as f:
-        print('ファイルの中身は以下のとおりです。')
-        print(f.read())
-        f.write(f'{favorite_restaurant}\n')
+# try:
+#     with open('restaurant.csv', 'r+') as f:
+#         print('ファイルの中身は以下のとおりです。')
+#         print(f.read())
+#         f.write(f'{favorite_restaurant}\n')
 
-except FileNotFoundError:
-    print('ファイルが存在しません。新しいファイルを作成します。')
-    with open('restaurant.csv', 'a') as f:
-        f.write(f'{favorite_restaurant},\n')
+# except FileNotFoundError:
+#     print('ファイルが存在しません。新しいファイルを作成します。')
+#     with open('restaurant.csv', 'a') as f:
+#         f.write(f'{favorite_restaurant},\n')
+
+
+
 
 # プログラムを終了する
 roboko.see_you(user_name)
