@@ -23,6 +23,14 @@ class RestaurantRobot(object):
     def favorite_restaurant(self, user_name):
         cprint(f'{user_name}さん。どこのレストランが好きですか？', 'green')
         cprint(f'{user_name}: which restaurants do you like?', 'green')
+    
+    @frame
+    def recommend_restaurant(self, restaurant_name):
+            cprint(f'私のおすすめのレストランは、{restaurant_name}です。', 'green')
+            cprint(f'I recommend {restaurant_name} restaurant.', 'green')
+            cprint('このレストランは好きですか[Yes/No]', 'green')
+            cprint('Do you like it?[y/n]', 'green')
+
 
     @frame
     def see_you(self, user_name):
@@ -74,21 +82,56 @@ def check_file(file_name, restaurant_name, choice_count=1):
     else:
         pass
 
+# おすすめのレストランを提案し、ユーザーの好みを尋ねる
+def ranking_restaurant(file_name):
+    popular_restaurant = ''
+    comparison_count = 0
+    with open(file_name, 'r') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            if len(popular_restaurant) == 0:
+                comparison_count = row['Count']
+                popular_restaurant = row['Name']
+                print(f'最も人気なレストランは{popular_restaurant}です')
+            else:
+                if comparison_count < row['Count']:
+                    comparison_count = row['Count']
+                    popular_restaurant = row['Name']
+                    print(f'最も人気なレストランは{popular_restaurant}です')
+                else:
+                    not_most_popular_restaurant = row['Name']
+                    print(f'{not_most_popular_restaurant}よりも人気なレストランがあるようです')
+        return popular_restaurant
+
+
+
 # Restaurantクラスのインスタンスを生成
+path = 'restaurant.csv'
 roboko = RestaurantRobot('Roboko')
 
 # ユーザーの名前を尋ねる
 roboko.hello()
 user_name = input()
 
+# レストランロボットのオススメ提案を受ける
+if os.path.isfile(path):
+    result = ranking_restaurant(path)
+    roboko.recommend_restaurant(result)
+    reply_to_recommendation = input()
+    # お気に入りのレストランが見つかったら提案を終了する
+    if reply_to_recommendation == 'Yes':
+        print(f'レストラン: {result} を気に入ってもらえて嬉しいです。')
+    # お気に入りのレストランではなかった場合、次を提案する
+    else:
+        pass
+else:
+    pass
+
 # お気に入りのレストランを尋ねる
 roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
-path = 'restaurant.csv'
 check_file(path,favorite_restaurant)
-
-
 
 
 # プログラムを終了する
