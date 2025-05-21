@@ -30,6 +30,28 @@ class RestaurantRobot(object):
         cprint(f'{self.robot_name}: Thank you so much {user_name}!', 'green')
 
 
+def check_file(file_name, restaurant_name, choice_count=1):
+    # CSVのヘッダーを定義
+    fieldnames = ['Name', 'Count']
+
+    # ファイルがない場合は、ヘッダーをつけてファイルを新規作成する
+    if not os.path.isfile(file_name):
+        with open(file_name, 'w') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames = fieldnames)
+            writer.writeheader()
+    # ファイルがある場合は、現在の記録を確認する
+    else:
+        with open(file_name, 'r') as csv_file:
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                most_popular_restaurant = row['Name']
+                print(most_popular_restaurant)
+
+    # 入力値をファイルに記録する
+    with open(file_name, 'a') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames = fieldnames)
+        writer.writerow({'Name': restaurant_name, 'Count': choice_count})
+
 # Restaurantクラスのインスタンスを生成
 roboko = RestaurantRobot('Roboko')
 
@@ -41,72 +63,8 @@ user_name = input()
 roboko.favorite_restaurant(user_name)
 favorite_restaurant = input()
 
-# 答えてもらったレストランをファイルに記録
-# try:
-#     with open('restaurant.csv', 'r+') as f:
-#         print('ファイルの中身は以下のとおりです。')
-#         print(f.read())
-#         f.write(f'{favorite_restaurant}\n')
-
-# except FileNotFoundError:
-#     print('ファイルが存在しません。新しいファイルを作成します。')
-#     with open('restaurant.csv', 'a') as f:
-#         f.write(f'{favorite_restaurant},\n')
-
-# try:
-#     with open('restaurant.csv', 'r') as csv_file:
-#         print('既存ファイルに記録しました。')
-#         fieldnames = ['Name', 'Count']
-#         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-#         writer.writerow({'Name': favorite_restaurant,'Count': 1})
-# except FileNotFoundError:
-#     print('ファイルが存在しません。新しいファイルを作成します。')
-#     with open('restaurant.csv', 'w') as csv_file:
-#         fieldnames = ['Name', 'Count']
-#         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-#         writer.writeheader()
-#         writer.writerow({'Name': favorite_restaurant,'Count': 1})
-
-# ①ファイルの存在確認
-# True:  ファイル更新
-# False: ファイル作成
-#       （1）ヘッダーを書き込み
-#        (2)１行目を書き込み
-#　共通処理
-#  (1)ファイルの存在確認
-#  (2)fieldnames定義
-#  (3)dictwriteメソッド実行 #各行に辞書型で書き込む
-
-
-# 課題　クラス化してwith openを３回にする。
 path = 'restaurant.csv'
-is_file = os.path.isfile(path)
-
-if not os.path.isfile(path):
-    with open('restaurant.csv', 'w') as csv_file:
-        fieldnames = ['Name', 'Count']
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        print('新規ファイル作成')
-else:
-    pass
-
-with open('restaurant.csv', 'r') as csv_file:
-    print('ファイル内容確認')
-    reader = csv.DictReader(csv_file)
-    for row in reader:
-        print(row['Name'], row['Count'])
-
-with open('restaurant.csv', 'a') as csv_file:
-    print('ファイル更新')
-    fieldnames = ['Name', 'Count']
-    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-    writer.writerow({'Name': favorite_restaurant, 'Count': 1})
-
-with open('restaurant.csv', 'r') as csv_file:
-    reader = csv.DictReader(csv_file)
-    for row in reader:
-        print(row['Name'], row['Count'])
+check_file(path,favorite_restaurant)
 
 
 
