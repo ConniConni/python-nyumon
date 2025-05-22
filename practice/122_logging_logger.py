@@ -1,8 +1,8 @@
 import logging
 
 # 出力ログレベルの設定
-# ロギングをログファイルに書き込むときはfilename属性で指定
-logging.basicConfig(filename='120_test.log',level=logging.INFO)
+# ロガー：ログ出力のインターフェイスを提供する
+logging.basicConfig(filename='122_test.log',level=logging.INFO)
 
 logging.critical('critical') # プログラムが実行不可となるような重大なエラーが発生した場合
 logging.error('error')       # 重大な問題により、機能を実行できない場合
@@ -12,3 +12,9 @@ logging.debug('debug')       # 問題探求に必要な詳細な情報を出力�
 
 # 変数を使いロギングを表示
 logging.info('info %s %s' ,'test','test2')
+
+# ロガーを使用
+# ロガーを使用するときのnameには__name__を指定するのが一般的
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.debug('debug')
