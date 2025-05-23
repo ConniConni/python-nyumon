@@ -1,5 +1,7 @@
 {
   "python.testing.unittestArgs": ["-v", "-s", "./practice", "-p", "test_*.py"],
   "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true
+  "python.testing.unittestEnabled": true,
+  // ファイル保存時にテスト対象コードを自動的に探索
+  "python.testing.autoTestDiscoverOnSaveEnabled": true
 }
