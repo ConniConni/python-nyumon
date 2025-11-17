@@ -11,17 +11,16 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 def worker1(queue):
     logging.debug("start")
     queue.put(100)
-    queue.put(200)
     time.sleep(3)
+    queue.put(200)
     logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
 def worker2(queue):
     logging.debug("start")
-    time.sleep(3)
-    print(queue.get())
-    print(queue.get())
+    logging.debug(queue.get())
+    logging.debug(queue.get())
     logging.debug("end")
 
 
