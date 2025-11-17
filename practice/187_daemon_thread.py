@@ -1,7 +1,4 @@
-# 1. 生存中のスレッドオブジェクトを確認する
-# 2. threading.current_thread()を使うやり方
-# 3. Timerを使って3秒後にスレッドを開始する
-# 4. 引数も渡してみる
+# 1. スレッドをLockする
 import logging
 import threading
 import time
@@ -10,33 +7,27 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
 # １つ目のスレッドで実行する処理の中身
-def worker1(x, y=1):
+def worker1(d):
     logging.debug("start")
-    logging.debug(x)
-    logging.debug(y)
-    time.sleep(5)
+    i = d["x"]
+    d["x"] = i + 1
+    logging.debug(d)
     logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
-def worker2():
+def worker2(d):
     logging.debug("start")
-    time.sleep(3)
+    i = d["x"]
+    d["x"] = i + 1
+    logging.debug(d)
     logging.debug("end")
 
 
 if __name__ == "__main__":
-    t = threading.Timer(3, worker1, (10,), kwargs={"y": 100})
-    t.start()
-    t.join()
-    # # threads = []
-    # for _ in range(5):
-    #     t = threading.Thread(target=worker1)
-    #     t.daemon = True
-    #     t.start()
-    #     # threads.append(t)
-    # for thread in threading.enumerate():
-    #     if thread is threading.current_thread():
-    #         print(thread)
-    #         continue
-    #     thread.join()
+    d = {"x": 0}
+    t1 = threading.Thread(target=worker1, args=(d,))
+    t2 = threading.Thread(target=worker2, args=(d,))
+    t1.start()
+    t2.start()
+    print("started")
