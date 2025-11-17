@@ -1,6 +1,7 @@
 # 1. 生存中のスレッドオブジェクトを確認する
 # 2. threading.current_thread()を使うやり方
 # 3. Timerを使って3秒後にスレッドを開始する
+# 4. 引数も渡してみる
 import logging
 import threading
 import time
@@ -9,8 +10,10 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
 # １つ目のスレッドで実行する処理の中身
-def worker1():
+def worker1(x, y=1):
     logging.debug("start")
+    logging.debug(x)
+    logging.debug(y)
     time.sleep(5)
     logging.debug("end")
 
@@ -23,7 +26,7 @@ def worker2():
 
 
 if __name__ == "__main__":
-    t = threading.Timer(3, worker1)
+    t = threading.Timer(3, worker1, (10,))
     t.start()
     t.join()
     # # threads = []
