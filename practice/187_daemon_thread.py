@@ -1,5 +1,3 @@
-# 1. スレッドをLockする
-# 2. withを使った書き方
 import logging
 import threading
 import time
@@ -8,32 +6,35 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
 # １つ目のスレッドで実行する処理の中身
-def worker1(d, lock):
-    logging.debug("start")
+def worker1(lock):
     with lock:
-        i = d["x"]
+        logging.debug("start")
         time.sleep(3)
-        d["x"] = i + 1
-        logging.debug(d)
-    logging.debug("end")
+        logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
-def worker2(d, lock):
-    logging.debug("start")
-    lock.acquire()
-    i = d["x"]
-    d["x"] = i + 1
-    logging.debug(d)
-    lock.release()
-    logging.debug("end")
+def worker2(lock):
+    with lock:
+        logging.debug("start")
+        time.sleep(3)
+        logging.debug("end")
+
+
+# 3つ目のスレッドで実行する処理の中身
+def worker3(lock):
+    with lock:
+        logging.debug("start")
+        time.sleep(3)
+        logging.debug("end")
 
 
 if __name__ == "__main__":
-    d = {"x": 0}
-    lock = threading.Lock()
-    t1 = threading.Thread(target=worker1, args=(d, lock))
-    t2 = threading.Thread(target=worker2, args=(d, lock))
+    lock = threading.RLock()
+    t1 = threading.Thread(target=worker1, args=(lock,))
+    t2 = threading.Thread(target=worker2, args=(lock,))
+    t3 = threading.Thread(target=worker3, args=(lock,))
     t1.start()
     t2.start()
+    t3.start()
     print("started")
