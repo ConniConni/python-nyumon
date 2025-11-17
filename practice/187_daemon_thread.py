@@ -1,4 +1,4 @@
-# 1. スレッドの処理を待たずにプログラムを終了する
+# 1. 生存中のスレッドオブジェクトを確認する
 import logging
 import threading
 import time
@@ -21,6 +21,11 @@ def worker2():
 
 
 if __name__ == "__main__":
-    t = threading.Thread(target=worker1)
-    t.daemon = True
-    t.start()
+    threads = []
+    for _ in range(5):
+        t = threading.Thread(target=worker1)
+        t.daemon = True
+        t.start()
+        threads.append(t)
+    for thread in threads:
+        thread.join()
