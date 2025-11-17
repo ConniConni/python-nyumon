@@ -1,5 +1,6 @@
 # 1. 生存中のスレッドオブジェクトを確認する
 # 2. threading.current_thread()を使うやり方
+# 3. Timerを使って3秒後にスレッドを開始する
 import logging
 import threading
 import time
@@ -22,14 +23,17 @@ def worker2():
 
 
 if __name__ == "__main__":
-    # threads = []
-    for _ in range(5):
-        t = threading.Thread(target=worker1)
-        t.daemon = True
-        t.start()
-        # threads.append(t)
-    for thread in threading.enumerate():
-        if thread is threading.current_thread():
-            print(thread)
-            continue
-        thread.join()
+    t = threading.Timer(3, worker1)
+    t.start()
+    t.join()
+    # # threads = []
+    # for _ in range(5):
+    #     t = threading.Thread(target=worker1)
+    #     t.daemon = True
+    #     t.start()
+    #     # threads.append(t)
+    # for thread in threading.enumerate():
+    #     if thread is threading.current_thread():
+    #         print(thread)
+    #         continue
+    #     thread.join()
