@@ -7,28 +7,33 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
 # １つ目のスレッドで実行する処理の中身
-def worker1(d):
+def worker1(d, lock):
     logging.debug("start")
+    lock.acquire()
     i = d["x"]
     time.sleep(3)
     d["x"] = i + 1
     logging.debug(d)
+    lock.release()
     logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
-def worker2(d):
+def worker2(d, lock):
     logging.debug("start")
+    lock.acquire()
     i = d["x"]
     d["x"] = i + 1
     logging.debug(d)
+    lock.release()
     logging.debug("end")
 
 
 if __name__ == "__main__":
     d = {"x": 0}
-    t1 = threading.Thread(target=worker1, args=(d,))
-    t2 = threading.Thread(target=worker2, args=(d,))
+    lock = threading.Lock()
+    t1 = threading.Thread(target=worker1, args=(d, lock))
+    t2 = threading.Thread(target=worker2, args=(d, lock))
     t1.start()
     t2.start()
     print("started")
