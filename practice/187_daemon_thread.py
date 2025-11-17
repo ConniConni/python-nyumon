@@ -26,7 +26,7 @@ def worker2():
 
 
 if __name__ == "__main__":
-    t = threading.Timer(3, worker1, (10,))
+    t = threading.Timer(3, worker1, (10,), kwargs={"y": 100})
     t.start()
     t.join()
     # # threads = []
