@@ -21,10 +21,6 @@ def worker2():
 
 
 if __name__ == "__main__":
-    t1 = threading.Thread(target=worker1)
-    # スレッド1の結果を待たず、プログラムを終了する
-    t1.daemon = True
-    t2 = threading.Thread(target=worker2)
-    t1.start()
-    t2.start()
-    print("started")
+    t = threading.Thread(target=worker1)
+    t.daemon = True
+    t.start()
