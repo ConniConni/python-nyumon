@@ -1,22 +1,30 @@
-# スレッドを２つ立ててみる
+# 1. スレッドを２つ立ててみる
+# 2. loggingでスレッドの名前を出力する
+import logging
 import threading
 import time
+
+logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
 # １つ目のスレッドで実行する処理の中身
 def worker1():
     # 現在実行中のスレッドの名前を取得し、start（end）と表示する
-    print(threading.current_thread().name, "start")
+    # print(threading.current_thread().name, "start")
+    logging.debug("start")
     time.sleep(3)
-    print(threading.current_thread().name, "end")
+    # print(threading.current_thread().name, "end")
+    logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
 def worker2():
     # 現在実行中のスレッドの名前を取得し、start（end）と表示する
-    print(threading.current_thread().name, "start")
+    # print(threading.current_thread().name, "start")
+    logging.debug("start")
     time.sleep(4)
-    print(threading.current_thread().name, "end")
+    # print(threading.current_thread().name, "end")
+    logging.debug("end")
 
 
 if __name__ == "__main__":
