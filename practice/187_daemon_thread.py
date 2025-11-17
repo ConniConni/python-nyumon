@@ -31,4 +31,5 @@ if __name__ == "__main__":
     for thread in threading.enumerate():
         if thread is threading.current_thread():
             print(thread)
+            continue
         thread.join()
