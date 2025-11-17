@@ -1,41 +1,34 @@
-# セマフォを使って２つのスレッドが占有可能な状態にする
+# キューに値を入れる
 import logging
+import queue
 import threading
 import time
 
 logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
-# １つ目のスレッドで実行する処理の中身
-def worker1(semaphore):
-    with semaphore:
-        logging.debug("start")
-        time.sleep(3)
-        logging.debug("end")
+# 1つ目のスレッドで実行する処理の中身
+def worker1(queue):
+    logging.debug("start")
+    queue.put(100)
+    queue.put(200)
+    time.sleep(3)
+    logging.debug("end")
 
 
 # 2つ目のスレッドで実行する処理の中身
-def worker2(semaphore):
-    with semaphore:
-        logging.debug("start")
-        time.sleep(3)
-        logging.debug("end")
-
-
-# 3つ目のスレッドで実行する処理の中身
-def worker3(semaphore):
-    with semaphore:
-        logging.debug("start")
-        time.sleep(3)
-        logging.debug("end")
+def worker2(queue):
+    logging.debug("start")
+    time.sleep(3)
+    print(queue.get())
+    print(queue.get())
+    logging.debug("end")
 
 
 if __name__ == "__main__":
-    semaphore = threading.Semaphore(2)
-    t1 = threading.Thread(target=worker1, args=(semaphore,))
-    t2 = threading.Thread(target=worker2, args=(semaphore,))
-    t3 = threading.Thread(target=worker3, args=(semaphore,))
+    queue = queue.Queue()
+    t1 = threading.Thread(target=worker1, args=(queue,))
+    t2 = threading.Thread(target=worker2, args=(queue,))
     t1.start()
     t2.start()
-    t3.start()
     print("started")
