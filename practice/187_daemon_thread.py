@@ -1,4 +1,5 @@
 # 1. スレッドをLockする
+# 2. withを使った書き方
 import logging
 import threading
 import time
@@ -9,12 +10,11 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 # １つ目のスレッドで実行する処理の中身
 def worker1(d, lock):
     logging.debug("start")
-    lock.acquire()
-    i = d["x"]
-    time.sleep(3)
-    d["x"] = i + 1
-    logging.debug(d)
-    lock.release()
+    with lock:
+        i = d["x"]
+        time.sleep(3)
+        d["x"] = i + 1
+        logging.debug(d)
     logging.debug("end")
 
 
