@@ -1,5 +1,6 @@
 # 1. スレッドを２つ立ててみる
 # 2. loggingでスレッドの名前を出力する
+# 3. スレッドの名前を変える
 import logging
 import threading
 import time
@@ -29,7 +30,7 @@ def worker2():
 
 if __name__ == "__main__":
     # 変数にスレッドオブジェクトを代入
-    t1 = threading.Thread(target=worker1)
+    t1 = threading.Thread(name="rename worker1", target=worker1)
     t2 = threading.Thread(target=worker2)
     # スレッド t1 を開始　メインプログラムの流れとは別にworker1関数の実行が始まる
     t1.start()
