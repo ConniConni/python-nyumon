@@ -1,47 +1,37 @@
-# 3つのスレッド分散処理して処理を実行する
+# 1つのスレッドの処理を待ってから残りのスレッドの処理を行う
 import logging
-import queue
 import threading
 import time
 
 logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 
 
-# 1つ目のスレッドで実行する処理の中身
-def worker1(queue):
+def worker1(event):
+    event.wait()
     logging.debug("start")
-    while True:
-        item = queue.get()
-        if item is None:
-            break
-        logging.debug(item)
-        queue.task_done()
+    time.sleep(3)
     logging.debug("end")
 
 
-# 2つ目のスレッドで実行する処理の中身
-def worker2(queue):
+def worker2(event):
+    event.wait()
     logging.debug("start")
-    logging.debug(queue.get())
-    logging.debug(queue.get())
+    time.sleep(3)
     logging.debug("end")
+
+
+def worker3(event):
+    logging.debug("start")
+    time.sleep(3)
+    logging.debug("end")
+    event.set()
 
 
 if __name__ == "__main__":
-    queue = queue.Queue()
-    for i in range(100000):
-        queue.put(i)
-    ts = []
-    for _ in range(3):
-        t = threading.Thread(target=worker1, args=(queue,))
-        # t2 = threading.Thread(target=worker2, args=(queue,))
-        t.start()
-        # t2.start()
-        # print("started")
-        ts.append(t)
-    logging.debug("tasks are not done")
-    queue.join()
-    logging.debug("tasks are done")
-    for _ in range(len(ts)):
-        queue.put(None)
-    [t.join() for t in ts]
+    event = threading.Event()
+    t1 = threading.Thread(target=worker1, args=(event,))
+    t2 = threading.Thread(target=worker2, args=(event,))
+    t3 = threading.Thread(target=worker3, args=(event,))
+    t1.start()
+    t2.start()
+    t3.start()
