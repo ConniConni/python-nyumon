@@ -31,9 +31,12 @@ if __name__ == "__main__":
     queue = queue.Queue()
     for i in range(10):
         queue.put(i)
-    queue.put(None)
+
     t1 = threading.Thread(target=worker1, args=(queue,))
     # t2 = threading.Thread(target=worker2, args=(queue,))
     t1.start()
     # t2.start()
     # print("started")
+    logging.debug("tasks are not done")
+    logging.debug("tasks are done")
+    queue.put(None)
