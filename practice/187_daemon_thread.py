@@ -1,5 +1,4 @@
-# キューに値を入れる
-# 1から9を表示して終了するスレッドを作成する
+# 3つのスレッド分散処理して処理を実行する
 import logging
 import queue
 import threading
@@ -16,7 +15,7 @@ def worker1(queue):
         if item is None:
             break
         logging.debug(item)
-        queue.task_done()
+        # queue.task_done()
     logging.debug("end")
 
 
@@ -30,15 +29,17 @@ def worker2(queue):
 
 if __name__ == "__main__":
     queue = queue.Queue()
-    for i in range(10):
+    for i in range(100000):
         queue.put(i)
-
-    t1 = threading.Thread(target=worker1, args=(queue,))
-    # t2 = threading.Thread(target=worker2, args=(queue,))
-    t1.start()
-    # t2.start()
-    # print("started")
+    ts = []
+    for _ in range(3):
+        t = threading.Thread(target=worker1, args=(queue,))
+        # t2 = threading.Thread(target=worker2, args=(queue,))
+        t.start()
+        # t2.start()
+        # print("started")
     logging.debug("tasks are not done")
     queue.join()
     logging.debug("tasks are done")
     queue.put(None)
+    [t.join() for t in ts]
