@@ -15,7 +15,7 @@ def worker1(queue):
         if item is None:
             break
         logging.debug(item)
-        # queue.task_done()
+        queue.task_done()
     logging.debug("end")
 
 
@@ -38,8 +38,10 @@ if __name__ == "__main__":
         t.start()
         # t2.start()
         # print("started")
+        ts.append(t)
     logging.debug("tasks are not done")
     queue.join()
     logging.debug("tasks are done")
-    queue.put(None)
+    for _ in range(len(ts)):
+        queue.put(None)
     [t.join() for t in ts]
