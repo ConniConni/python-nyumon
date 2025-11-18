@@ -1,4 +1,5 @@
 # キューに値を入れる
+# 1から9を表示して終了するスレッドを作成する
 import logging
 import queue
 import threading
@@ -10,9 +11,11 @@ logging.basicConfig(level=logging.DEBUG, format="%(threadName)s: %(message)s")
 # 1つ目のスレッドで実行する処理の中身
 def worker1(queue):
     logging.debug("start")
-    queue.put(100)
-    time.sleep(3)
-    queue.put(200)
+    while True:
+        item = queue.get()
+        if item is None:
+            break
+        logging.debug(item)
     logging.debug("end")
 
 
@@ -26,8 +29,11 @@ def worker2(queue):
 
 if __name__ == "__main__":
     queue = queue.Queue()
+    for i in range(10):
+        queue.put(i)
+    queue.put(None)
     t1 = threading.Thread(target=worker1, args=(queue,))
-    t2 = threading.Thread(target=worker2, args=(queue,))
+    # t2 = threading.Thread(target=worker2, args=(queue,))
     t1.start()
-    t2.start()
-    print("started")
+    # t2.start()
+    # print("started")
