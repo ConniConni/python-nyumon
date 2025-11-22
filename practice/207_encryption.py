@@ -36,12 +36,13 @@ with open("plaintext", "r") as f, open("enc.dat", "wb") as e:
     cipher_text = cipher.encrypt(plaintext_bytes)
     e.write(cipher_text)
 
-# # 復元
-# cipher2 = AES.new(key_bytes, AES.MODE_CBC, iv_bytes)
-# decrypted_text = cipher2.decrypt(cipher_text)
-# # 復元結果をパディングを含めて出力
-# print(decrypted_text)
-# # パディングした文字列を出力
-# print(decrypted_text[-1])
-# # 復元結果をパディングを除いて出力
-# print(decrypted_text[: -decrypted_text[-1]])
+with open("enc.dat", "rb") as e:
+    # 復元
+    cipher2 = AES.new(key_bytes, AES.MODE_CBC, iv_bytes)
+    decrypted_text = cipher2.decrypt(e.read())
+    # 復元結果をパディングを含めて出力
+    print(decrypted_text)
+    # パディングした文字列を出力
+    print(decrypted_text[-1])
+    # 復元結果をパディングを除いて出力
+    print(decrypted_text[: -decrypted_text[-1]])
