@@ -23,9 +23,11 @@ plaintext_bytes = "fdafejiwaifdjafewafeaf".encode("utf-8")
 print(plaintext_bytes)
 print(f"変更前の文字列の長さ:{len(plaintext_bytes)}")
 # AESアルゴリズムを使った新しい暗号化セッションを開始するための関数呼び出し
+# AES-CBC 前の暗号化ブロックを用いて暗号化。最初の暗号化ブロックのみ初期化ベクトル(iv)を用いる
 # AES.new([暗号化キー], [暗号利用モード], 初期化ベクトル)
 cipher = AES.new(key_bytes, AES.MODE_CBC, iv_bytes)
 padding_length = AES.block_size - len(plaintext_bytes) % AES.block_size
+#
 plaintext_bytes += (chr(padding_length) * padding_length).encode("utf-8")
 print(plaintext_bytes)
 print(f"変更後の文字列の長さ:{len(plaintext_bytes)}")
