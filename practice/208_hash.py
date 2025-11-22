@@ -18,4 +18,11 @@ def get_digest(password):
 # dbに値を追加
 db[user_name] = get_digest(user_pass)
 
+
+# ２回目以降のログインのユーザー確認
+def is_login(user_name, user_pass):
+    return get_digest(user_pass) == db[user_name]
+
+
 print(db)
+print(is_login(user_name, user_pass))
