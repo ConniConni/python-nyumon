@@ -46,3 +46,5 @@ with open("enc.dat", "rb") as e:
     print(decrypted_text[-1])
     # 復元結果をパディングを除いて出力
     print(decrypted_text[: -decrypted_text[-1]])
+    # 復元結果をutf-8でdecode
+    print(decrypted_text[: -decrypted_text[-1]].decode("utf-8"))
