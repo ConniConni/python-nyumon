@@ -26,3 +26,5 @@ def is_login(user_name, user_pass):
 
 print(db)
 print(is_login(user_name, user_pass))
+# ユーザーが異なるパスワードで実行するとFalseとなる
+print(is_login(user_name, "test"))
