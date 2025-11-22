@@ -33,3 +33,13 @@ print(plaintext_bytes)
 print(f"変更後の文字列の長さ:{len(plaintext_bytes)}")
 cipher_text = cipher.encrypt(plaintext_bytes)
 print(cipher_text)
+
+# 復元
+cipher2 = AES.new(key_bytes, AES.MODE_CBC, iv_bytes)
+decrypted_text = cipher2.decrypt(cipher_text)
+# 復元結果をパディングを含めて出力
+print(decrypted_text)
+# パディングした文字列を出力
+print(decrypted_text[-1])
+# 復元結果をパディングを除いて出力
+print(decrypted_text[: -decrypted_text[-1]])
