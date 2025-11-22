@@ -1,8 +1,12 @@
+import base64
+import os
 import hashlib
 
 user_name = "user1"
 user_pass = "password"
 db = {}
+
+salt = base64.b64encode(os.urandom(32))
 
 
 def get_digest(password):
@@ -11,7 +15,7 @@ def get_digest(password):
     # password = user_pass.encode("utf-8") も同じ挙動になる
 
     # passwordをハッシュ化
-    digest = hashlib.sha256(password).hexdigest()
+    digest = hashlib.sha256(salt + password).hexdigest()
     return digest
 
 
