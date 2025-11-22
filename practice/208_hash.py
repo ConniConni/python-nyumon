@@ -16,6 +16,8 @@ def get_digest(password):
 
     # passwordをハッシュ化
     digest = hashlib.sha256(salt + password).hexdigest()
+    for _ in range(10000):
+        digest = hashlib.sha256(bytes(digest, "utf-8")).hexdigest()
     return digest
 
 
