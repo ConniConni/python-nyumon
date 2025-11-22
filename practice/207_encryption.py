@@ -11,17 +11,23 @@ from Crypto.Cipher import AES
 # key1 = random.choice(string.ascii_letters)
 # key2 = random.choice(string.ascii_letters)
 # key = key1 + key2
-key = "".join(random.choice(string.ascii_letters) for _ in range(AES.block_size))
+key_bytes = "".join(
+    random.choice(string.ascii_letters) for _ in range(AES.block_size)
+).encode("utf-8")
 # print(key)
-iv = "".join(random.choice(string.ascii_letters) for _ in range(AES.block_size))
+iv_bytes = "".join(
+    random.choice(string.ascii_letters) for _ in range(AES.block_size)
+).encode("utf-8")
 
-plaintext = "fdafejiwaifdjafewafeaf"
-print(plaintext)
-print(f"変更前の文字列の長さ:{len(plaintext)}")
+plaintext_bytes = "fdafejiwaifdjafewafeaf".encode("utf-8")
+print(plaintext_bytes)
+print(f"変更前の文字列の長さ:{len(plaintext_bytes)}")
 # AESアルゴリズムを使った新しい暗号化セッションを開始するための関数呼び出し
 # AES.new([暗号化キー], [暗号利用モード], 初期化ベクトル)
-# cipher = AES.new(key, AES.MODE_CBC, iv)
-padding_length = AES.block_size - len(plaintext) % AES.block_size
-plaintext += chr(padding_length) * padding_length
-print(plaintext)
-print(f"変更後の文字列の長さ:{len(plaintext)}")
+cipher = AES.new(key_bytes, AES.MODE_CBC, iv_bytes)
+padding_length = AES.block_size - len(plaintext_bytes) % AES.block_size
+plaintext_bytes += (chr(padding_length) * padding_length).encode("utf-8")
+print(plaintext_bytes)
+print(f"変更後の文字列の長さ:{len(plaintext_bytes)}")
+cipher_text = cipher.encrypt(plaintext_bytes)
+print(cipher_text)
